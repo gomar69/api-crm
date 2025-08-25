@@ -1,0 +1,6 @@
+# Env files
+.env
+.env.local
+.env.prod
+/vendor/
+bin/
