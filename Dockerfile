@@ -13,7 +13,9 @@ FROM golang:1.24.5
 WORKDIR /app
 
 COPY --from=builder /app/api-crm .
-COPY .env .
+
+# ❌ jangan copy .env, biarin runtime yang inject
+# COPY .env .
 
 EXPOSE 8080
 CMD ["./api-crm"]
