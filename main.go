@@ -10,7 +10,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-//-update
+//-update2
 
 func main() {
 	dbUser := os.Getenv("POSTGRES_USER")
