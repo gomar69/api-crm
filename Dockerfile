@@ -17,5 +17,6 @@ COPY --from=builder /app/api-crm .
 # ❌ jangan copy .env, biarin runtime yang inject
 # COPY .env .
 
+
 EXPOSE 8080
 CMD ["./api-crm"]
