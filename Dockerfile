@@ -1,24 +1,19 @@
-# Gunakan base image golang
-FROM golang:1.22 AS builder
-
+# Build stage
+FROM golang:1.24.5 AS builder
 WORKDIR /app
 
-# Copy go.mod dan go.sum
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copy semua source code
 COPY . .
+RUN go build -o api-crm .
 
-# Build binary
-RUN go build -o api-crm ./cmd
-
-# Stage production
-FROM gcr.io/distroless/base-debian12
-
+# Run stage
+FROM golang:1.24.5
 WORKDIR /app
+
 COPY --from=builder /app/api-crm .
+COPY .env .
 
 EXPOSE 8080
-
 CMD ["./api-crm"]

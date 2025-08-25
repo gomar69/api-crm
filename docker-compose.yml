@@ -1,30 +1,13 @@
 version: "3.8"
 
 services:
-  db:
-    image: postgres:15
-    container_name: crm_db
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
-
   api:
     build: .
     container_name: crm_api
     restart: always
-    depends_on:
-      - db
     env_file:
       - .env
     ports:
       - "8080:8080"
-    command: ["go", "run", "main.go"]
-
-volumes:
-  db_data:
+    # jangan pakai go run lagi
+    command: ["./api-crm"]
