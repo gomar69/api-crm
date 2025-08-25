@@ -10,17 +10,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env: # ⬅️ definisikan sekali di sini
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      APP_PORT: ${{ secrets.APP_PORT }}
+
     services:
       postgres:
         image: postgres:15
-        env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        env: # ⬅️ gunakan variabel dari atas (udah auto kebaca)
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U ${{ secrets.POSTGRES_USER }}"
+          --health-cmd="pg_isready -U ${{ env.POSTGRES_USER }}"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
